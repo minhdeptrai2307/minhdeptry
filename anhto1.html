@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ảnh t.viên tổ 1</title>
+    <style>
+    .image-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .image-container img {
+        width: 33.33%;
+        box-sizing: border-box;
+        padding: 5px;
+        transition: filter 0.3s ease-in-out;
+    }
+    
+    .image-container img:hover {
+        filter: brightness(70%);
+    }
+    
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    
+    .modal {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+    }
+    
+    .modal img {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .modal img:hover {
+        transform: scale(1.1);
+    }
+    
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .prev-btn,
+    .next-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .prev-btn {
+        left: 10px;
+    }
+
+    .next-btn {
+        right: 10px;
+    }
+    </style>
+</head>
+<body>
+    <h1>Tổ 1</h1>
+    <div class="image-container">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475080662949968/the_1-2086.jpg?width=311&height=467" alt="Tổ 2" onclick="openModal(this)">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475081396965487/the_1-2363.jpg?width=311&height=467" alt="Tổ 2" onclick="openModal(this)">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475082026106981/the_1-2371.jpg?width=311&height=467" alt="Tổ 2" onclick="openModal(this)">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475082814627840/the_1-2575.jpg?width=311&height=467" alt="Tổ 2" onclick="openModal(this)">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475083607359518/the_2-0899.jpg?width=311&height=467" alt="Tổ 2" onclick="openModal(this)">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475084924362802/the_2-1312.jpg?width=700&height=467" alt="Tổ 2" onclick="openModal(this)">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475085696126986/the_2-1331.jpg?width=700&height=467" alt="Tổ 2" onclick="openModal(this)">
+        <img src="https://media.discordapp.net/attachments/941273632217387008/1117475079887011900/ki_yeu-03886.jpg?width=700&height=467" alt="Tổ 2" onclick="openModal(this)">
+        
+        
+    </div>
+    
+    <div class="overlay" onclick="closeModal()">
+        <div class="modal">
+            <img id="modalImg" src="" alt="Modal Image">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span class="prev-btn" onclick="prevImage()">&lt;</span>
+            <span class="next-btn" onclick="nextImage()">&gt;</span>
+        </div>
+    </div>
+
+    <script>
+    var images = []; // Mảng chứa đường dẫn các ảnh
+    var currentIndex = 0; // Chỉ số ảnh hiện tại
+    var isModalOpen = false; // Trạng thái modal
+
+    function openModal(img) {
+        images = Array.from(document.querySelectorAll('.image-container img'));
+        currentIndex = images.indexOf(img);
+
+        var overlay = document.querySelector('.overlay');
+        var modalImg = document.getElementById('modalImg');
+
+        modalImg.src = img.src;
+        modalImg.style.maxWidth = '640px';
+        modalImg.style.maxHeight = '400px';
+        overlay.style.display = 'flex';
+        setTimeout(function() {
+            overlay.style.opacity = 1;
+            isModalOpen = true;
+        }, 10);
+    }
+
+    function closeModal() {
+        if (isModalOpen) {
+            var overlay = document.querySelector('.overlay');
+            overlay.style.opacity = 0;
+            setTimeout(function() {
+                overlay.style.display = 'none';
+                isModalOpen = false;
+            }, 300);
+        }
+    }
+
+    function prevImage() {
+        if (isModalOpen) {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateModalImage();
+        }
+    }
+
+    function nextImage() {
+        if (isModalOpen) {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateModalImage();
+        }
+    }
+
+    function updateModalImage() {
+        var modalImg = document.getElementById('modalImg');
+        modalImg.src = images[currentIndex].src;
+    }
+    </script>
+</body>
+</html>
